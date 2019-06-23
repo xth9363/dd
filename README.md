@@ -106,18 +106,18 @@ MysqlInnoDb 在理论上解决了幻读的问题
 事务 100% 隔离，可避免脏读、不可重复读、幻读的发生。
 
 
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/23/snznue.jpg)
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/23/adbpmr.jpg)
 
 
 看一个例子
 
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/23/14db14ff326909d3_WhHOx8B.jpg)
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/23/1.jpg)
 
 我们再举个例子
 
 A，B 两个事务，分别做了一些操作，操作过程中，在不同隔离级别下查看变量的值：
 
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/23/2642a1c550aaa285_9Bghrpt.jpg)
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/23/2.jpg)
 
 
 
@@ -131,3 +131,30 @@ A，B 两个事务，分别做了一些操作，操作过程中，在不同隔�
 这 4 种隔离级别，并行性能依次降低，安全性依次提高。
 
 总的来说，事务隔离级别越高，越能保证数据的完整性和一致性，但是付出的代价却是并发执行效率的低下。
+
+
+### MySQlInnoDB隔离级别的实现
+
+事务的机制是通过视图（read-view）来实现的并发版本控制（MVCC），不同的事务隔离级别创建读视图的时间点不同。
+
+#### MVCC：Multi-Version Concurrent Control 多版本并发控制 
+MVCC是为了实现数据库的并发控制而设计的一种协议。从我们的直观理解上来看，要实现数据库的并发访问控制，最简单的做法就是加锁访问，即读的时候不能写（允许多个西线程同时读，即共享锁，S锁），写的时候不能读（一次最多只能有一个线程对同一份数据进行写操作，即排它锁，X锁）。这样的加锁访问，其实并不算是真正的并发，或者说它只能实现并发的读，因为它最终实现的是读写串行化，这样就大大降低了数据库的读写性能。加锁访问其实就是和MVCC相对的LBCC，即基于锁的并发控制（Lock-Based Concurrent Control），是四种隔离级别中级别最高的Serialize隔离级别。为了提出比LBCC更优越的并发性能方法，MVCC便应运而生。
+
+它的最大好处便是，读不加锁，读写不冲突。
+在MVCC中，读操作可以分成两类，
+快照读（Snapshot read）和当前读（current read）。
+
+
+
+
+
+
+MVCC的优缺点
+
+上述策略的结果就是,在读取数据的时候,innodb几乎不用获得任何锁, 每个查询都通过版本检查,只获得自己需要的数据版本,从而大大提高了系统的并发度.
+
+这种策略的缺点是,为了实现多版本,innodb必须对每行增加相应的字段来存储版本信息,同时需要维护每一行的版本信息,而且在检索行的时候,需要进行版本的比较,因而降低了查询的效率;innodb还必须定期清理不再需要的行版本,及时回收空间,这也增加了一些开销
+
+
+
+
