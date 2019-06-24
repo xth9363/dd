@@ -197,7 +197,7 @@ else:
 
 还需要进行以下判断
 
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/25/cxintk.png)
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/25/csabwp.png)
 
 
 已知
