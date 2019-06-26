@@ -140,6 +140,10 @@ A，B 两个事务，分别做了一些操作，操作过程中，在不同隔�
 数据何时写入和修改?
 多版本的数据如何关联？
 
+
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/26/tzxwqs.png)
+
+
 #### 版本链
 
 ![avatar](http://www.xiatianhao.com/media/article_images/2019/06/25/cxintk.png)
@@ -189,7 +193,7 @@ else:
 如事务1200修改v的值为6，并提交了事务，此时名单仍是[123,234,900] ，但是1200已经结束，且不存在于名单中，
 1200的修改值6能代替4被读到吗？
 
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/25/2.png)
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/26/2.png)
 
 肯定不能，如果读到6，就跟前两次读到的4不同，又出现了"不可重复读"的问题
 
@@ -296,7 +300,6 @@ b)        行的删除版本号要么没有被定义，要么大于事务版本�
 (4)   delete操作：
 
 对于删除，InnoDB直接把改行的删除版本号修改为当前事务号，相当于标记为删除，而不是物理的删除。真是的删除是在InnoDB的purge线程去做的。
-
 
 
 
