@@ -157,6 +157,8 @@ select * from information_schema.innodb_locks;
 2 rows in set, 1 warning (0.00 sec)
 
 
+四个隔离级别都会在UPDATE,INSERT,DELETE时给数据上写锁,所以都不会出现丢失修改的情况
+
 ```
 
 ### 读已提交 级别 如何解决 脏读
