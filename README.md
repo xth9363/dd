@@ -21,8 +21,7 @@ A事务覆盖B事务已经提交的数据，造成B事务所做操作丢失：
 ![avatar](http://www.xiatianhao.com/media/article_images/2019/07/02/kswfgi.jpg)
 
 
-2、脏读
-脏读（dirty read）:
+**2、脏读（dirty read）:**
 ```
 A事务读取B事务尚未提交的更改数据，并在这个数据的基础上操作。
 如果恰巧B事务回滚，那么A事务读到的数据根本是不被承认的。
@@ -31,9 +30,9 @@ A事务读取B事务尚未提交的更改数据，并在这个数据的基础上
 ![avatar](http://www.xiatianhao.com/media/article_images/2019/07/02/wdximn.jpg)
 
 
-3、不可重复读
+**3、不可重复读（non-repeatable read）**
 ```
-不可重复读（non-repeatable read），是指一个事务范围内，多次查询某个数据，却得到不同的结果。
+不可重复读是指一个事务范围内，多次查询某个数据，却得到不同的结果。
 
 在第一个事务中的两次读取数据之间，由于第二个事务的修改，第一个事务两次读到的数据可能就是不一样的。
 
@@ -42,9 +41,7 @@ A事务读取B事务尚未提交的更改数据，并在这个数据的基础上
 ![avatar](http://www.xiatianhao.com/media/article_images/2019/07/02/gvpeok.jpg)
 
 
-4、幻读
-
-幻读（phantom read），是事务非独立执行时发生的一种现象。
+**4、幻读（phantom read）**
 ```
 一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就称为“幻读”。
 
