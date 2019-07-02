@@ -165,11 +165,6 @@ select * from information_schema.innodb_locks;
 
 ![avatar](http://www.xiatianhao.com/media/article_images/2019/06/23/2.jpg)
 
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/26/tzxwqs.png)
-
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/25/cxintk.png)
-
-
 #### MVCC：Multi-Version Concurrent Control 多版本并发控制
 MVCC是为了实现数据库的并发控制而设计的一种协议。从我们的直观理解上来看，要实现数据库的并发访问控制，最简单的做法就是加锁访问，即读的时候不能写（允许多个西线程同时读，即共享锁，S锁），写的时候不能读（一次最多只能有一个线程对同一份数据进行写操作，即排它锁，X锁）。这样的加锁访问，其实并不算是真正的并发，或者说它只能实现并发的读，因为它最终实现的是读写串行化，这样就大大降低了数据库的读写性能。加锁访问其实就是和MVCC相对的LBCC，即基于锁的并发控制（Lock-Based Concurrent Control），是四种隔离级别中级别最高的Serialize隔离级别。为了提出比LBCC更优越的并发性能方法，MVCC便应运而生。
 
@@ -185,14 +180,16 @@ select * from table where ? for update; （加X锁，下同）
 insert, update, delete操作
 
 
-是通过在每行纪录后面保存两个隐藏的列来实现的。这两个列，一个保存了行的创建时间，一个保存了行的过期时间（或删除时间），当然存储的并不是实际的时间值，而是系统版本号。每开始一个新的事务，系统版本号都会自动递增。事务开始时刻的系统版本号会作为事务的版本号，用来和查询到的每行纪录的版本号进行比较。
+MVCC是通过在每行纪录后面保存两个隐藏的列来实现的。这两个列，一个保存了行的创建时间，一个保存了行的过期时间（或删除时间），当然存储的并不是实际的时间值，而是系统版本号。每开始一个新的事务，系统版本号都会自动递增。事务开始时刻的系统版本号会作为事务的版本号，用来和查询到的每行纪录的版本号进行比较。
 
 因为不知道当前读是否已经commit
 
 因此我们需要知道当前活跃的事务有哪些
 
-![avatar](http://www.xiatianhao.com/media/article_images/2019/06/25/cxintk.png)
 
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/26/tzxwqs.png)
+
+![avatar](http://www.xiatianhao.com/media/article_images/2019/06/25/cxintk.png)
 
 #### Read-View
 
